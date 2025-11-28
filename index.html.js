@@ -1,0 +1,64 @@
+index.html (raíz del repositorio)
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generador de Textos con IA</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; margin: 0; }
+    .container { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #333; }
+    label { font-weight: bold; margin-top: 10px; display: block; }
+    select, textarea, button { width: 100%; padding: 10px; margin-top: 8px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
+    button { background: #007bff; color: white; border: none; cursor: pointer; }
+    button:hover { background: #005fcc; }
+    #resultado { margin-top: 20px; background: #f9f9f9; padding: 15px; border-radius: 10px; min-height: 120px; border: 1px solid #ddd; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Generador de Textos con IA</h1>
+
+    <label for="tipo">Tipo de texto:</label>
+    <select id="tipo">
+      <option value="amor">Carta romántica</option>
+      <option value="perdon">Mensaje de disculpas</option>
+      <option value="motivacion">Texto motivacional</option>
+      <option value="amistad">Mensaje para un amigo</option>
+    </select>
+
+    <label for="detalles">Describe algunos detalles (opcional):</label>
+    <textarea id="detalles" rows="4" placeholder="Ejemplo: para mi novia que está triste..."></textarea>
+
+    <button onclick="generarTexto()">Generar Texto</button>
+
+    <div id="resultado">Aquí aparecerá tu texto generado…</div>
+  </div>
+
+  <script>
+    async function generarTexto() {
+      const tipo = document.getElementById('tipo').value;
+      const detalles = document.getElementById('detalles').value;
+      const resultado = document.getElementById('resultado');
+
+      resultado.innerHTML = "Generando texto...";
+
+      try {
+        // Llamada al backend seguro (Netlify/Glitch/Vercel)
+        const response = await fetch('https://TU_BACKEND_SEGUR0.netlify.app/generar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tipo, detalles })
+        });
+
+        const data = await response.json();
+        resultado.innerHTML = data.texto || 'Error generando texto';
+      } catch (e) {
+        resultado.innerHTML = 'Error al conectar con la IA.';
+      }
+    }
+  </script>
+</body>
+</html>
